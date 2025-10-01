@@ -4,11 +4,8 @@ public class TurmaDto {
 
     private String curso;
 
-    private String periodo;
-
     private String nome;
 
-    private String sala;
 
     public String getCurso() {
         return curso;
@@ -16,14 +13,6 @@ public class TurmaDto {
 
     public void setCurso(String curso) {
         this.curso = curso;
-    }
-
-    public String getPeriodo() {
-        return periodo;
-    }
-
-    public void setPeriodo(String periodo) {
-        this.periodo = periodo;
     }
 
     public String getNome() {
@@ -34,11 +23,4 @@ public class TurmaDto {
         this.nome = nome;
     }
 
-    public String getSala() {
-        return sala;
-    }
-
-    public void setSala(String sala) {
-        this.sala = sala;
-    }
 }

@@ -14,6 +14,6 @@ public class AlunoEntity {
 
     private String nome;
 
-    @ManyToOne
-    private TurmaEntity turma;
+    /*@ManyToOne
+    private TurmaEntity turma;*/
 }
