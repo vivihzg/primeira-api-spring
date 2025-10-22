@@ -2,15 +2,20 @@ package com.lucasmartins.mineiracaodados.controller;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
+import com.lucasmartins.mineiracaodados.Turma;
+import com.lucasmartins.mineiracaodados.repository.TurmaRepository;
+
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 @RestController
@@ -18,39 +23,40 @@ import org.springframework.http.HttpStatus;
 
 public class TurmaController {
 
-    @GetMapping("/nome")
-    @ResponseStatus(HttpStatus.OK)
-    public String buscarNomeTurma() {
-        return "T03N Mineração de Dados";
-    }
-
-    @GetMapping("/quantidade")
-    public int getQuantidadeAlunos() {
-        return 30;
-    }
+    @Autowired
+    private TurmaRepository repository;
 
     @PostMapping
-    public String criarTurma() {
-        return "Turma T03N criada";
+    @ResponseStatus(HttpStatus.CREATED)
+    public Turma criarTurma(@RequestBody Turma turma){
+        return repository.save(turma);
     }
 
-    @PutMapping
-    public String atualizarTurma() {
-        return "Turma T03N atualizada";
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<Turma> ListarTurma() {
+        return repository.findAll();
     }
 
-    @DeleteMapping
-    public void deletarTurma() {
-
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Turma buscarId(@PathVariable int id) {
+        return repository.findById(id).orElse(null);
     }
 
-    @GetMapping("/disciplina")
-    public String getDisciplina() {
-        return "Mineração de Dados";
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Turma atualizarTurma(@PathVariable int id, @RequestBody Turma turma) {
+        if(repository.existsById(id)){
+            turma.setId(id);
+            return repository.save(turma);
+        }
+        return null;
     }
 
-    @GetMapping("/alunos")
-    public List<String> getListaAlunos() {
-        return Arrays.asList("Maria", "Thiago", "Larissa", "Crysthian", "Gislaine");
+    
+    @DeleteMapping("/{id}")
+    public void deletaTurma(@PathVariable int id) {
+        repository.deleteById(id);
     }
 }
